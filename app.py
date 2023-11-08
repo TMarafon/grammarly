@@ -2,7 +2,9 @@ from difflib import Differ
 
 import gradio as gr
 
-import openai
+from openai import OpenAI
+openai = OpenAI()
+
 openai.api_key = ""
 
 import json
@@ -142,11 +144,12 @@ async def generate_practice_hint(sample):
     
 async def completion(prompt, model="gpt-3.5-turbo", temperature=0, max_tokens=200):
     try:
-        creation = openai.ChatCompletion.create(
+        creation = openai.chat.completions.create(
             model=model,
             messages=prompt,
             temperature=temperature,
             max_tokens=max_tokens,
+            #response_format={ type: "json_object" },
         )
 
         print(creation)
@@ -158,7 +161,7 @@ async def completion(prompt, model="gpt-3.5-turbo", temperature=0, max_tokens=20
 async def update_api_key(api_key):
     try:
         openai.api_key = api_key
-        openai.Model.list()
+        openai.models.list()
         return "API key set"
     except Exception as e:
         print(e)

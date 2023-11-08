@@ -10,6 +10,7 @@ openai.api_key = ""
 import json
 
 import pandas as pd
+import os
 
 async def diff_texts(text1, text2):
     
@@ -166,6 +167,21 @@ async def update_api_key(api_key):
     except Exception as e:
         print(e)
         return "Invalid API key"
+    
+async def text_to_voice(text):
+    try:
+        response = openai.audio.speech.create(
+            model="tts-1",
+            voice="onyx",
+            input=text,
+            response_format="mp3",
+            speed=0.6,
+        )
+        response.stream_to_file("output.mp3")
+        return os.path.join(os.path.dirname(__file__),"output.mp3")
+        #return response
+    except Exception as e:
+        gr.Warning(e)
 
 
 with gr.Blocks(title="Grammarly") as demo:
@@ -229,11 +245,26 @@ with gr.Blocks(title="Grammarly") as demo:
                     
             with gr.Row():
                 with gr.Tab("Reviewed"):
-                    reviewed = gr.Textbox(
-                        label="Reviewed text",
-                        lines=12,
-                        interactive=False,
-                    )
+                    with gr.Row():
+                        reviewed = gr.Textbox(
+                            label="Reviewed text",
+                            lines=12,
+                            interactive=False,
+                        )
+                    with gr.Row():
+                        with gr.Column(scale=3):
+                            gr.Markdown(
+                                value="",
+                            )
+                            audio = gr.Audio(
+                                container=False,
+                                sources=["microphone"],
+                                autoplay=True,
+                            )    
+                        with gr.Column():    
+                            btn_text_to_voice = gr.Button(
+                                value="Text to voice",
+                            )
                 with gr.Tab("Difference"):
                     diff = gr.HighlightedText(
                         label="Diff",
@@ -306,8 +337,6 @@ with gr.Blocks(title="Grammarly") as demo:
 
                 
                 
-                
-        
     btn_submit.click(fn=diff_texts, inputs=[input, context], outputs=[diff, reviewed, explanation, score, sentences])  
     
     def on_select(evt: gr.SelectData):  # SelectData is a subclass of EventData
@@ -321,6 +350,7 @@ with gr.Blocks(title="Grammarly") as demo:
     btn_hint_practice.click(fn=generate_practice_hint, inputs=[practice_sentence], outputs=[practice_feedback])
 
     tb_api_key.submit(fn=update_api_key, inputs=[tb_api_key], outputs=[lb_api_status])
+    btn_text_to_voice.click(fn=text_to_voice, inputs=[reviewed], outputs=[audio])
 
 if __name__ == "__main__":
     demo.launch()

@@ -3,9 +3,7 @@ from difflib import Differ
 import gradio as gr
 
 from openai import OpenAI
-openai = OpenAI()
-
-openai.api_key = ""
+openai = OpenAI(api_key="")
 
 import json
 

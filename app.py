@@ -3,7 +3,7 @@ from difflib import Differ
 import gradio as gr
 
 import openai
-print(openai.__version__)
+openai.api_key = ""
 
 import json
 
@@ -320,6 +320,5 @@ with gr.Blocks(title="Grammarly") as demo:
     tb_api_key.submit(fn=update_api_key, inputs=[tb_api_key], outputs=[lb_api_status])
 
 if __name__ == "__main__":
-    openai.api_key = ""
     demo.launch()
 

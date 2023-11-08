@@ -3,6 +3,7 @@ from difflib import Differ
 import gradio as gr
 
 import openai
+print(openai.__version__)
 
 import json
 
@@ -70,7 +71,7 @@ async def generate_text(text_prompt, context):
     ]
 
     print(prompt)
-    return await completion(prompt, model="gpt-3.5-turbo-16k", temperature=0.1, max_tokens=1000)
+    return await completion(prompt, model="gpt-3.5-turbo-16k", temperature=0.1, max_tokens=1500)
     
 async def generate_practice(sample):
     text_system = f"""

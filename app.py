@@ -161,6 +161,7 @@ async def update_api_key(api_key):
         openai.Model.list()
         return "API key set"
     except Exception as e:
+        print(e)
         return "Invalid API key"
 
 

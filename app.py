@@ -156,7 +156,6 @@ async def completion(prompt, model="gpt-3.5-turbo", temperature=0, max_tokens=20
         return "Error"
     
 async def update_api_key(api_key):
-    openai.api_key = api_key
     try:
         openai.api_key = api_key
         openai.Model.list()
@@ -321,5 +320,6 @@ with gr.Blocks(title="Grammarly") as demo:
     tb_api_key.submit(fn=update_api_key, inputs=[tb_api_key], outputs=[lb_api_status])
 
 if __name__ == "__main__":
+    openai.api_key = ""
     demo.launch()
 

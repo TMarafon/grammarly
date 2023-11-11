@@ -38,6 +38,10 @@ This project is an advanced English grammar correction and practice tool built u
 - **Review and Feedback**: Post submission, the system provides the corrected version, explanation, score, and a detailed breakdown per sentence.
 - **Interactive Practice**: Select a sentence and start a practice session to correct a similar sentence with grammar issues.
 
+## Demo
+
+https://tmarafon2-grammarly.hf.space
+
 ## Additional Features
 
 - **Text to Voice**: Hear how the corrected text sounds by converting it to speech.
